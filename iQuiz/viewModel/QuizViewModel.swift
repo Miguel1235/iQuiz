@@ -4,7 +4,11 @@ import Foundation
 final class QuizViewModel: ObservableObject {
     @Published var current = 0
     @Published var isGameOver = false
-    @Published var quizData: [Quiz] = load("quiz.json")
+    @Published var quizData: [Quiz] = []
+//    @Published var quizData: [Quiz] = load("quiz.json")
+
+    var isLoading = true
+    var textError = ""
     
     
     func getAnsers() -> [String] {
@@ -28,5 +32,18 @@ final class QuizViewModel: ObservableObject {
     func resetGame() {
         current = 0
         isGameOver = false
+    }
+    
+    func getQuestions() async {
+        isLoading = true
+        let result = await Api.shared.getApiQuestions()
+        isLoading = false
+        switch result {
+        case .success(let questions):
+            quizData = questions
+        case .failure(let error):
+            quizData = []
+            textError = error.localizedDescription
+        }
     }
 }
