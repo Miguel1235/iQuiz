@@ -32,17 +32,17 @@ final class QuizViewModel: ObservableObject {
         isGameOver = false
     }
     
-    func getQuestions() async {
-        quizData = load("quiz.json")
-//        isLoading = true
-//        let result = await Api.shared.getApiQuestions()
-//        isLoading = false
-//        switch result {
-//        case .success(let questions):
-//            quizData = questions
-//        case .failure(let error):
-//            quizData = []
-//            textError = error.localizedDescription
-//        }
+    func getQuestions(url: String = "") async {
+//        quizData = load("quiz.json")
+        isLoading = true
+        let result = await Api.shared.getApiQuestions(url: url)
+        isLoading = false
+        switch result {
+        case .success(let questions):
+            quizData = questions
+        case .failure(let error):
+            quizData = []
+            textError = error.localizedDescription
+        }
     }
 }

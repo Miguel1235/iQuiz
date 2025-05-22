@@ -34,9 +34,10 @@ struct QuizMaker: View {
                     }
                 }
                 
-                Button("Start quiz") {
-                    print("selected diff: \(vm.selectedDificulty) - type: \(vm.selectedType) - questions - \(vm.numberOfQuestions) - cat: \(vm.selectedCategory)")
-                }
+                    NavigationLink(destination: QuizGame(url: vm.getApiUrl())) {
+                        Text("Start quiz")
+                            .bold()
+                    }
             }
             .navigationTitle(Text("Quiz Maker"))
         }

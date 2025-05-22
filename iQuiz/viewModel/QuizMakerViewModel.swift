@@ -36,4 +36,18 @@ final class QuizMakerViewModel: ObservableObject {
                     textError = error.localizedDescription
                 }
     }
+    
+    func getApiUrl() -> String {
+        var components = URLComponents(string: "\(Api.shared.baseUrl)/api.php")
+        components?.queryItems = [
+            URLQueryItem(name: "amount", value: String(selectedNumberOfQuestions)),
+            URLQueryItem(name: "category", value: String(selectedCategory.id)),
+            URLQueryItem(name: "difficulty", value: selectedDificulty),
+        ]
+        
+        if selectedType != "both" {
+            components?.queryItems?.append(URLQueryItem(name: "type", value: selectedType))
+        }
+        return components!.url!.absoluteString
+    }
 }

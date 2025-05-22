@@ -13,8 +13,8 @@ final class Api {
     private init() {}
     let baseUrl = "https://opentdb.com"
     
-    func getApiQuestions() async -> Result<[Quiz],ApiError>  {
-        guard let url = URL(string: "\(baseUrl)/api.php?amount=10") else {
+    func getApiQuestions(url: String) async -> Result<[Quiz],ApiError>  {
+        guard let url = URL(string: url.isEmpty ? "\(baseUrl)/api.php?amount=10" : url) else {
             return .failure(.invalidURL)
         }
         

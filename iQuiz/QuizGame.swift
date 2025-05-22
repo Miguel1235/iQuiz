@@ -4,6 +4,8 @@ struct QuizGame: View {
     @StateObject private var vm = QuizViewModel()
     @Environment(\.dismiss) private var dismiss
     
+    var url: String = ""
+    
     var body: some View {
         VStack(alignment: .center) {
             if vm.isLoading {
@@ -35,7 +37,7 @@ struct QuizGame: View {
         }
         .onAppear {
             Task {
-                await vm.getQuestions()
+                await vm.getQuestions(url: url)
             }
         }
         .alert("Game over", isPresented: $vm.isGameOver) {
