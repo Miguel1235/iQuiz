@@ -3,6 +3,7 @@ import SwiftUI
 struct QuizGame: View {
     @StateObject private var vm = QuizViewModel()
     @Environment(\.dismiss) private var dismiss
+    
     var url: String = ""
     var body: some View {
         VStack(alignment: .center) {
@@ -17,6 +18,7 @@ struct QuizGame: View {
                 }
             } else  {
                 HStack(alignment: .bottom) {
+                    Text("Time elapsed: \(vm.timeElapsed) seconds")
                     Spacer()
                     Text("\(vm.current+1)/\(vm.quizData.count)")
                         .padding()
@@ -26,6 +28,7 @@ struct QuizGame: View {
                 Spacer()
                 ForEach(vm.getAnsers(), id: \.self) { answer in
                     QuizButton(text: answer) {
+                        vm.startTimer()
                         if !vm.checkGameOver() {
                             vm.checkAnswer(answer)
                         }
@@ -34,6 +37,7 @@ struct QuizGame: View {
             }
         }
         .onAppear {
+
             Task {
                 await vm.getQuestions(url: url)
             }
@@ -44,12 +48,11 @@ struct QuizGame: View {
                 dismiss()
             }
         } message: {
-            Text("Your score is \(vm.correctAnswers) - \(vm.isQuizPassed() ? "You passed!" : "You failed!")")
+            Text("Score: \(vm.correctAnswers) - \(vm.isQuizPassed() ? "You passed!" : "You failed!") Time: \(vm.timeElapsed)")
         }
         .padding()
     }
 }
-
 
 #Preview {
     QuizGame()

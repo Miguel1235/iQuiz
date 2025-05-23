@@ -17,6 +17,8 @@ struct QuizButton: View {
         .clipShape(Capsule())
         .padding([.horizontal])
         .tint(Color.indigo.opacity(0.8).mix(with: .red, by: 0.5).gradient)
+        .lineLimit(1)
+        .minimumScaleFactor(0.5)
     }
 }
 
