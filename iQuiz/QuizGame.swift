@@ -3,9 +3,7 @@ import SwiftUI
 struct QuizGame: View {
     @StateObject private var vm = QuizViewModel()
     @Environment(\.dismiss) private var dismiss
-    
     var url: String = ""
-    
     var body: some View {
         VStack(alignment: .center) {
             if vm.isLoading {
@@ -29,7 +27,7 @@ struct QuizGame: View {
                 ForEach(vm.getAnsers(), id: \.self) { answer in
                     QuizButton(text: answer) {
                         if !vm.checkGameOver() {
-                            vm.go2NextQuestion()
+                            vm.checkAnswer(answer)
                         }
                     }
                 }
@@ -45,10 +43,13 @@ struct QuizGame: View {
                 vm.resetGame()
                 dismiss()
             }
+        } message: {
+            Text("Your score is \(vm.correctAnswers) - \(vm.isQuizPassed() ? "You passed!" : "You failed!")")
         }
         .padding()
     }
 }
+
 
 #Preview {
     QuizGame()

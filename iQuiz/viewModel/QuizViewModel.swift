@@ -7,6 +7,12 @@ final class QuizViewModel: ObservableObject {
     @Published var quizData: [Quiz] = []
     @Published var isLoading = false
     @Published var textError = ""
+    @Published var correctAnswers = 0
+    
+    func isQuizPassed() -> Bool {
+        if quizData.isEmpty { return false }
+        return ((correctAnswers * 100 ) / quizData.count) > 65
+    }
     
     
     func getAnsers() -> [String] {
@@ -18,7 +24,10 @@ final class QuizViewModel: ObservableObject {
         return html2string(quizData[current].question)
     }
     
-    func go2NextQuestion() {
+    func checkAnswer(_ answer: String) {
+        if(answer == quizData[current].correctAnswer) {
+            correctAnswers += 1
+        }
         current += 1
     }
     

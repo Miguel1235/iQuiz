@@ -31,7 +31,6 @@ final class Api {
                 return .failure(.userNotFound)
             case 200:
                 let decodedResponse = try JSONDecoder().decode(ResponseQuiz.self, from: data)
-                print(decodedResponse)
                 return .success(decodedResponse.results)
             default:
                 return .failure(.invalidResponse)
